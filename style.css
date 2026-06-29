@@ -33,6 +33,15 @@ body {
   overflow: hidden;            /* desktop shouldn't scroll */
   height: 100vh;
   user-select: none;
+  /* ✦ custom cute cursor — a soft pink arrow with a sparkle ✦
+     (drawn inline as SVG, so there's no image file to host) */
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><path d="M5 3 L5 23 L10.5 17.5 L14 25 L17.5 23.4 L14 16 L21 16 Z" fill="rgb(255,143,196)" stroke="white" stroke-width="1.6" stroke-linejoin="round"/><circle cx="22.5" cy="6" r="1.6" fill="white"/></svg>') 5 3, auto;
+}
+
+/* ✦ paw cursor for anything you can click ✦ */
+a, button, .app-icon, .note-tab, .closebutton, .windowheader,
+.topbar-name, .link-chip, [contenteditable="true"] {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><g fill="rgb(255,111,177)" stroke="white" stroke-width="1.2"><ellipse cx="13" cy="17" rx="6" ry="5"/><circle cx="6.5" cy="11" r="2.3"/><circle cx="11" cy="7.5" r="2.3"/><circle cx="15" cy="7.5" r="2.3"/><circle cx="19.5" cy="11" r="2.3"/></g></svg>') 13 12, pointer;
 }
 
 /* floating sparkles in the background ✦ */

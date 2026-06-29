@@ -166,7 +166,7 @@ const notes = [
       <ul>
         <li>✦ <strong>a cozy fantasy</strong> — for the soft magical feelings</li>
         <li>✦ <strong>a mystery</strong> — i never guess the ending (i love that)</li>
-        <li>✦ <strong>a comfort re-read</strong> — the literary equivalent of a warm blanket</li>
+        <li>✦ <strong>The Secret History by Donna Tartt</strong> — the literary equivalent of a warm blanket</li>
       </ul>
       <p><em>[EDIT ME — swap in the books you're actually reading!]</em></p>
     `,
@@ -176,7 +176,7 @@ const notes = [
     date: "🎨 studio",
     body: `
       <h2>🎨 things i've been drawing</h2>
-      <p>lately it's been a lot of: tiny pastel cats, cluttered cozy rooms,
+      <p>lately it's been a lot of: fuzzy cat doodles, cluttered cozy rooms,
       and characters with way too many hair clips.</p>
       <blockquote>art is just memes with feelings (and better lighting)</blockquote>
       <p><em>[EDIT ME — link your art here, or drop in an &lt;img&gt; of a piece you love]</em></p>
