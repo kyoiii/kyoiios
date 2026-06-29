@@ -1,0 +1,293 @@
+/* ⋆˚꒰ა  kyoiiOS stylesheet  ໒꒱˚⋆
+   ─────────────────────────────────────────
+   COLORS LIVE HERE — change these to re-theme
+   the whole OS in one place ♡
+*/
+:root {
+  --bg-1: #ffd6ec;      /* soft pink */
+  --bg-2: #ffe9f5;      /* lighter pink */
+  --bg-3: #e7d9ff;      /* gentle lilac */
+  --window: #fff5fb;    /* window cream-pink */
+  --window-edge: #ffb8db;
+  --ink: #6b4a5c;       /* soft plum text */
+  --ink-soft: #a98a99;
+  --accent: #ff8fc4;    /* bubblegum accent */
+  --accent-deep: #ff6fb1;
+  --bow: #ff5fa2;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: "Quicksand", system-ui, sans-serif;
+  color: var(--ink);
+  /* dreamy layered pink gradient — no image file needed */
+  background:
+    radial-gradient(circle at 18% 20%, #ffffff66 0, transparent 38%),
+    radial-gradient(circle at 82% 78%, #ffffff55 0, transparent 40%),
+    linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 45%, var(--bg-3) 100%);
+  background-attachment: fixed;
+  overflow: hidden;            /* desktop shouldn't scroll */
+  height: 100vh;
+  user-select: none;
+}
+
+/* floating sparkles in the background ✦ */
+body::before {
+  content: "✦ ⋆ ˚ ✿ ⋆ ˚ ✦ ⋆ ✿ ˚ ✦ ⋆ ˚ ✿ ⋆ ✦ ˚ ⋆ ✿ ✦ ⋆ ˚ ✿";
+  position: fixed;
+  inset: 0;
+  font-size: 22px;
+  line-height: 4.5rem;
+  letter-spacing: 3.5rem;
+  color: #ffffff7a;
+  white-space: pre-wrap;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─────────── TOP BAR ─────────── */
+.topbar {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  z-index: 9999;
+  pointer-events: none;       /* let clicks pass through gaps */
+}
+.topbar-pill {
+  margin: 0;
+  pointer-events: auto;       /* but the pills are clickable */
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid #ffffffcc;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+  box-shadow: 0 4px 14px rgba(255, 143, 196, 0.25);
+}
+.topbar-name { cursor: pointer; transition: transform .15s ease; }
+.topbar-name:hover { transform: translateY(-1px) scale(1.03); }
+.topbar-mood { font-size: 13px; color: var(--accent-deep); }
+
+/* ─────────── DESKTOP APP ICONS ─────────── */
+.desktop-apps {
+  position: absolute;
+  top: 78px;
+  left: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 1;
+}
+.app-icon {
+  width: 86px;
+  text-align: center;
+  padding: 8px 6px;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: transform .12s ease, background .15s ease;
+}
+.app-icon:hover { transform: translateY(-2px); }
+.app-icon.selected { background: rgba(255, 255, 255, 0.45); }
+.icon-art {
+  width: 60px; height: 60px;
+  margin: 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+  background: var(--window);
+  border: 2px solid #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(255, 111, 177, 0.32);
+}
+.icon-label {
+  margin: 6px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  text-shadow: 0 1px 2px #ffffffaa;
+}
+
+/* ─────────── WINDOWS (shared look) ─────────── */
+.window {
+  position: absolute;
+  display: none;              /* opened by JS */
+  flex-direction: column;
+  min-width: 240px;
+  background: var(--window);
+  border: 2px solid var(--window-edge);
+  border-radius: 22px;
+  box-shadow: 0 18px 50px rgba(214, 90, 158, 0.35);
+  overflow: hidden;
+  z-index: 5;
+}
+.windowheader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  cursor: grab;
+  background: linear-gradient(180deg, #ffd9ee, #ffc7e6);
+  border-bottom: 1.5px solid #ffffff;
+}
+.windowheader:active { cursor: grabbing; }
+.closebutton {
+  width: 15px; height: 15px;
+  border-radius: 50%;
+  background: var(--bow);
+  border: 1.5px solid #ffffffcc;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px #ffffff55;
+  transition: transform .1s ease, filter .1s ease;
+}
+.closebutton:hover { transform: scale(1.15); filter: brightness(1.05); }
+.headertext {
+  margin: 0;
+  flex: 1;
+  text-align: center;
+  font-weight: 700;
+  color: #9c3d72;
+}
+.header-spacer { width: 15px; }   /* keeps the title centered */
+.window-body { padding: 18px; overflow: auto; }
+
+/* ─────────── WELCOME WINDOW ─────────── */
+.welcome-window { top: 96px; left: 50%; transform: translateX(-50%); width: 380px; }
+.welcome-body { text-align: center; }
+.welcome-title { margin: 4px 0 2px; font-size: 24px; color: #9c3d72; }
+.sparkle {
+  background: linear-gradient(90deg, var(--accent-deep), #c79bff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.welcome-jp { margin: 0 0 12px; font-family: "Yuji Syuku", serif; color: var(--accent-deep); }
+.welcome-jp .tiny { font-family: "Quicksand", sans-serif; font-size: 11px; color: var(--ink-soft); }
+.welcome-text { font-size: 14.5px; line-height: 1.65; color: var(--ink); }
+.welcome-text abbr { text-decoration-style: dotted; cursor: help; }
+.link-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; }
+.link-chip {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  color: #9c3d72;
+  background: #fff;
+  border: 1.5px solid var(--window-edge);
+  border-radius: 999px;
+  padding: 6px 14px;
+  transition: transform .12s ease, background .15s ease;
+}
+.link-chip:hover { transform: translateY(-1px); background: #ffe6f3; }
+.hint { font-size: 11px; color: var(--ink-soft); margin: 12px 0 0; font-style: italic; }
+
+/* a tiny CSS cat ⟆ */
+.kitty { position: relative; width: 92px; height: 70px; margin: 0 auto 6px; }
+.kitty-face {
+  position: absolute; inset: 8px 0 0;
+  background: #fff;
+  border: 2.5px solid var(--window-edge);
+  border-radius: 50% 50% 46% 46%;
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px;
+  font-size: 16px; color: #9c3d72;
+  box-shadow: inset 0 -6px 10px #ffd9ee;
+}
+.kitty-ear {
+  position: absolute; top: 0;
+  width: 0; height: 0;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-bottom: 24px solid #fff;
+  filter: drop-shadow(0 -2px 0 var(--window-edge));
+}
+.kitty-ear.left { left: 8px; transform: rotate(-18deg); }
+.kitty-ear.right { right: 8px; transform: rotate(18deg); }
+.kitty-nose { font-size: 11px; color: var(--accent-deep); }
+.kitty-bow { position: absolute; right: 4px; top: 6px; font-size: 18px; }
+
+/* ─────────── GRIMOIRE (notes) ─────────── */
+.grimoire-window { top: 120px; left: calc(50% - 280px); width: 560px; }
+.grimoire-body { display: flex; gap: 14px; height: 380px; padding: 14px; }
+.grimoire-sidebar {
+  width: 170px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
+}
+.note-tab {
+  background: #ffeef7;
+  border: 1.5px solid transparent;
+  border-radius: 14px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background .15s ease, border .15s ease, transform .1s ease;
+}
+.note-tab:hover { transform: translateX(2px); background: #ffe1f1; }
+.note-tab.active { background: #fff; border-color: var(--window-edge); }
+.note-tab .note-title { margin: 0; font-weight: 700; font-size: 14px; color: #9c3d72; }
+.note-tab .note-date { margin: 2px 0 0; font-size: 11px; color: var(--ink-soft); }
+.grimoire-content {
+  flex: 1;
+  overflow-y: auto;
+  background: #fff;
+  border: 1.5px solid #ffe0f0;
+  border-radius: 16px;
+  padding: 18px;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+.grimoire-content h2 { margin-top: 0; color: #9c3d72; }
+.grimoire-content blockquote {
+  margin: 14px 0;
+  padding: 12px 16px;
+  background: #fff2f9;
+  border-left: 4px solid var(--accent);
+  border-radius: 10px;
+  font-style: italic;
+  color: var(--accent-deep);
+}
+.grimoire-content .meme {
+  display: inline-block;
+  background: #fff0d6;
+  border: 1.5px dashed #ffc78a;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 600;
+  color: #b9772a;
+}
+
+/* ─────────── MIU.FM (music) ─────────── */
+.jukebox-window { top: 130px; left: calc(50% + 60px); width: 340px; }
+.jukebox-body { text-align: center; }
+.jukebox-now { margin: 0 0 12px; font-weight: 700; color: #9c3d72; }
+.jukebox-frame { border-radius: 16px; border: 1.5px solid #ffe0f0; }
+
+/* custom soft scrollbars to match */
+.window-body::-webkit-scrollbar,
+.grimoire-sidebar::-webkit-scrollbar,
+.grimoire-content::-webkit-scrollbar { width: 8px; }
+.window-body::-webkit-scrollbar-thumb,
+.grimoire-sidebar::-webkit-scrollbar-thumb,
+.grimoire-content::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 999px; }
+
+/* be a little responsive on small screens */
+@media (max-width: 640px) {
+  .window { max-width: 92vw; }
+  .grimoire-window { left: 4vw; width: 92vw; }
+  .grimoire-body { flex-direction: column; height: auto; max-height: 70vh; }
+  .grimoire-sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; }
+  .jukebox-window { left: 4vw; width: 92vw; }
+  .welcome-window { width: 92vw; }
+}

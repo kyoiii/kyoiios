@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  ╭───────────────────────────────────────────────╮
+  │   kyoiiOS ⋆˚꒰ა ♡ ໒꒱˚⋆  a personal web OS       │
+  │   built for the Hack Club webOS jam            │
+  │                                                │
+  │   HOW TO MAKE IT YOURS:                        │
+  │   - search for  [EDIT ME]  to find spots       │
+  │     where you can swap in your own stuff       │
+  │   - notes live in script.js (the `notes` list) │
+  │   - colors live at the top of style.css        │
+  ╰───────────────────────────────────────────────╯
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>kyoiiOS ♡</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- soft rounded fonts to match the cozy vibe -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Yuji+Syuku&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ✦ TOP BAR ✦ : OS name on the left, a mood in the middle, the clock on the right -->
+  <div id="top" class="topbar">
+    <!-- clicking the OS name re-opens the welcome window -->
+    <p class="topbar-pill topbar-name" id="welcomeopen">⋆ kyoiiOS ⋆</p>
+    <!-- [EDIT ME] change this little status to whatever mood you're in -->
+    <p class="topbar-pill topbar-mood">ฅ^•ﻌ•^ฅ reading &amp; daydreaming</p>
+    <p class="topbar-pill topbar-clock" id="clock">--:--</p>
+  </div>
+
+  <!-- ✦ DESKTOP APP ICONS ✦ : double-click (or tap) to open a window -->
+  <div id="desktopApps" class="desktop-apps">
+
+    <div class="app-icon" id="welcomeIcon" data-window="welcome">
+      <div class="icon-art">🏠</div>
+      <p class="icon-label">home</p>
+    </div>
+
+    <div class="app-icon" id="grimoireIcon" data-window="grimoire">
+      <div class="icon-art">📖</div>
+      <p class="icon-label">grimoire</p>
+    </div>
+
+    <div class="app-icon" id="jukeboxIcon" data-window="jukebox">
+      <div class="icon-art">🎧</div>
+      <p class="icon-label">miu.fm</p>
+    </div>
+  </div>
+
+  <!-- ✦ WELCOME WINDOW ✦ -->
+  <div class="window welcome-window" id="welcome">
+    <div class="windowheader" id="welcomeheader">
+      <div class="closebutton" id="welcomeclose" title="close"></div>
+      <p class="headertext">⋆｡˚ welcome ˚｡⋆</p>
+      <div class="header-spacer"></div>
+    </div>
+
+    <div class="window-body welcome-body">
+      <!-- a little CSS-drawn sleepy cat so no image files are needed -->
+      <div class="kitty">
+        <div class="kitty-ear left"></div>
+        <div class="kitty-ear right"></div>
+        <div class="kitty-face">
+          <span class="kitty-eye left">◝</span>
+          <span class="kitty-nose">ㅅ</span>
+          <span class="kitty-eye right">◜</span>
+        </div>
+        <div class="kitty-bow">🎀</div>
+      </div>
+
+      <!-- [EDIT ME] your name / who you are -->
+      <h1 class="welcome-title">hi, i'm <span class="sparkle">kyoii</span> ‧₊˚🐾</h1>
+      <p class="welcome-jp">⋆ ようこそ私のOSへ ⋆ <span class="tiny">(welcome to my OS)</span></p>
+
+      <!-- [EDIT ME] your vibe / about you -->
+      <p class="welcome-text">
+        a cozy little corner of the internet where i keep the things i love —
+        <strong>books</strong>, <strong>art</strong>, soft <strong>cats</strong>,
+        <abbr title="cute Japanese characters!">sanrio</abbr> sweetness, and a
+        <s>concerning</s> healthy amount of <strong>memes</strong>. poke around,
+        open the apps, drag the windows. make yourself at home ♡
+      </p>
+
+      <!-- [EDIT ME] swap these for your real links -->
+      <div class="link-row">
+        <a class="link-chip" href="#" target="_blank" rel="noopener">🐙 github</a>
+        <a class="link-chip" href="#" target="_blank" rel="noopener">🎨 art</a>
+        <a class="link-chip" href="#" target="_blank" rel="noopener">✉️ say hi</a>
+      </div>
+      <p class="hint">psst — those links are placeholders, edit them in index.html ♡</p>
+    </div>
+  </div>
+
+  <!-- ✦ GRIMOIRE (notes / blog) WINDOW ✦ -->
+  <div class="window grimoire-window" id="grimoire">
+    <div class="windowheader" id="grimoireheader">
+      <div class="closebutton" id="grimoireclose" title="close"></div>
+      <p class="headertext">📖 grimoire</p>
+      <div class="header-spacer"></div>
+    </div>
+
+    <div class="window-body grimoire-body">
+      <!-- the list of entries gets filled in by script.js -->
+      <div class="grimoire-sidebar" id="grimoireSidebar"></div>
+      <!-- the selected entry shows up here -->
+      <div class="grimoire-content" id="grimoireContent"></div>
+    </div>
+  </div>
+
+  <!-- ✦ MIU.FM (music) WINDOW ✦ -->
+  <div class="window jukebox-window" id="jukebox">
+    <div class="windowheader" id="jukeboxheader">
+      <div class="closebutton" id="jukeboxclose" title="close"></div>
+      <p class="headertext">🎧 miu.fm</p>
+      <div class="header-spacer"></div>
+    </div>
+
+    <div class="window-body jukebox-body">
+      <p class="jukebox-now">now playing ‧₊˚ ♬</p>
+      <!-- [EDIT ME] paste your own Spotify playlist/track embed URL below.
+           On Spotify: Share → Embed playlist → copy the src from the iframe. -->
+      <iframe
+        class="jukebox-frame"
+        title="my playlist"
+        src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO?utm_source=generator&theme=0"
+        width="100%" height="352" frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"></iframe>
+      <p class="hint">this is a placeholder playlist — swap the embed link in index.html ♡</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
