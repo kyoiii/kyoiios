@@ -10,7 +10,6 @@
 ───────────────────────────────────────────── */
 function tickClock() {
   const now = new Date();
-  // [EDIT ME] change the format if you like — e.g. add the date
   const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   document.querySelector("#clock").textContent = "♡ " + time;
 }
@@ -141,7 +140,6 @@ document.querySelector("#welcomeopen").addEventListener("click", () => openWindo
 
 /* ─────────────────────────────────────────────
    7. GRIMOIRE (notes) CONTENT
-   ★ THIS is the easy part to make yours ★
    add / edit objects in the `notes` list below and the
    sidebar + reader update automatically. content can be HTML.
 ───────────────────────────────────────────── */
@@ -168,7 +166,6 @@ const notes = [
         <li>✦ <strong>a mystery</strong> — i never guess the ending (i love that)</li>
         <li>✦ <strong>The Secret History by Donna Tartt</strong> — the literary equivalent of a warm blanket</li>
       </ul>
-      <p><em>[EDIT ME — swap in the books you're actually reading!]</em></p>
     `,
   },
   {
@@ -179,7 +176,6 @@ const notes = [
       <p>lately it's been a lot of: fuzzy cat doodles, cluttered cozy rooms,
       and characters with way too many hair clips.</p>
       <blockquote>art is just memes with feelings (and better lighting)</blockquote>
-      <p><em>[EDIT ME — link your art here, or drop in an &lt;img&gt; of a piece you love]</em></p>
     `,
   },
   {
@@ -190,7 +186,6 @@ const notes = [
       <p>a sacred archive. handle with care.</p>
       <p><span class="meme">me: i'll read one chapter<br>also me: 3am, book 4</span></p>
       <p><span class="meme">my cat watching me reorganize my bookshelf for the 5th time 🐈‍⬛</span></p>
-      <p><em>[EDIT ME — paste your own cursed favorites here]</em></p>
     `,
   },
 ];
