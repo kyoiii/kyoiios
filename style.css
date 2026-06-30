@@ -1,6 +1,6 @@
 /* ⋆˚꒰ა  kyoiiOS stylesheet  ໒꒱˚⋆
    ─────────────────────────────────────────
-   COLORS LIVE HERE — change these to re-theme
+   COLORS LIVE HERE: change these to re-theme
    the whole OS in one place ♡
 */
 :root {
@@ -24,7 +24,7 @@ body {
   margin: 0;
   font-family: "Quicksand", system-ui, sans-serif;
   color: var(--ink);
-  /* dreamy layered pink gradient — no image file needed */
+  /* dreamy layered pink gradient (no image file needed) */
   background:
     radial-gradient(circle at 18% 20%, #ffffff66 0, transparent 38%),
     radial-gradient(circle at 82% 78%, #ffffff55 0, transparent 40%),
@@ -33,7 +33,7 @@ body {
   overflow: hidden;            /* desktop shouldn't scroll */
   height: 100vh;
   user-select: none;
-  /* ✦ custom cute cursor — a soft pink arrow with a sparkle ✦
+  /* ✦ custom cute cursor: a soft pink arrow with a sparkle ✦
      (drawn inline as SVG, so there's no image file to host) */
   cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><path d="M5 3 L5 23 L10.5 17.5 L14 25 L17.5 23.4 L14 16 L21 16 Z" fill="rgb(255,143,196)" stroke="white" stroke-width="1.6" stroke-linejoin="round"/><circle cx="22.5" cy="6" r="1.6" fill="white"/></svg>') 5 3, auto;
 }
@@ -303,19 +303,22 @@ body::before {
   #petcat { right: 12px; bottom: 96px; }
 }
 
-/* ───────────── REAL IMAGE ASSETS (Twemoji) ───────────── */
-.tw { display: block; width: 100%; height: 100%; object-fit: contain; }
-.tw-inline { display: inline-block; width: 1.05em; height: 1.05em; vertical-align: -0.18em; }
-.icon-art img.tw { width: 38px; height: 38px; }
+/* ───────────── ORIGINAL SVG ART ───────────── */
+.icon-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.ic { display: inline-block; vertical-align: middle; width: 1em; height: 1em; }
+.icon-art .ic { width: 40px; height: 40px; }
+.dock .ic { width: 34px; height: 34px; }
+.greet-ic { width: 18px; height: 18px; vertical-align: -4px; }
+.ic-paw-inline { width: 22px; height: 22px; vertical-align: -5px; }
 
-/* welcome kitty (now a real image) */
+/* welcome kitty */
 .kitty { position: relative; width: 92px; height: 92px; margin: 0 auto 6px; }
-.kitty-img {
+.ic-cat-lg {
   width: 88px; height: 88px; display: block; margin: 2px auto 0;
-  filter: drop-shadow(0 7px 11px rgba(255, 111, 177, 0.42));
+  filter: drop-shadow(0 7px 11px rgba(255, 111, 177, 0.30));
   animation: kittyBob 4s ease-in-out infinite;
 }
-.kitty-bow { position: absolute; top: -2px; right: 8px; width: 30px; height: 30px; }
+.kitty-bow { position: absolute; top: -4px; right: 6px; width: 30px; height: 30px; }
 @keyframes kittyBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
 /* ───────────── DOCK / TASKBAR ───────────── */
@@ -342,23 +345,23 @@ body::before {
 /* ───────────── PET CAT ───────────── */
 #petcat {
   position: fixed; right: 26px; bottom: 92px; width: 84px; height: 100px; z-index: 9997;
-  text-align: center; user-select: none;
-  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><g fill="rgb(255,111,177)" stroke="white" stroke-width="1.2"><ellipse cx="13" cy="17" rx="6" ry="5"/><circle cx="6.5" cy="11" r="2.3"/><circle cx="11" cy="7.5" r="2.3"/><circle cx="15" cy="7.5" r="2.3"/><circle cx="19.5" cy="11" r="2.3"/></g></svg>') 13 12, pointer;
+  text-align: center; user-select: none; touch-action: none; cursor: grab;
 }
-.petcat-eyes { display: none; }
+#petcat.dragging { cursor: grabbing; }
 .petcat-shadow {
   position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
   width: 52px; height: 10px; background: rgba(214, 90, 158, 0.22);
   border-radius: 50%; filter: blur(3px);
 }
-.petcat-img {
+.petcat-svg {
   width: 72px; height: 72px; display: block; margin: 0 auto;
   transform-origin: bottom center; transition: transform 0.15s ease;
-  filter: drop-shadow(0 5px 8px rgba(255, 111, 177, 0.45));
+  filter: drop-shadow(0 5px 8px rgba(255, 111, 177, 0.30));
 }
-#petcat:hover .petcat-img { transform: scale(1.06) rotate(-3deg); }
-#petcat.bounce .petcat-img { animation: petBounce 0.5s ease; }
-#petcat.blink .petcat-img { animation: petBlink 0.25s ease; }
+#petcat:hover .petcat-svg { transform: scale(1.05) rotate(-2deg); }
+#petcat.dragging .petcat-svg { transform: scale(1.08) rotate(3deg); }
+#petcat.bounce .petcat-svg { animation: petBounce 0.5s ease; }
+#petcat.blink .petcat-svg { animation: petBlink 0.25s ease; }
 @keyframes petBounce {
   0% { transform: scale(1); }
   30% { transform: scale(1.18) rotate(6deg); }
@@ -369,7 +372,7 @@ body::before {
 .petcat-hint {
   margin: 3px 0 0; font-size: 11px; font-weight: 600; color: var(--accent-deep);
   background: rgba(255, 255, 255, 0.7); border-radius: 999px; padding: 2px 9px;
-  opacity: 0; transition: opacity 0.2s ease;
+  opacity: 0; transition: opacity 0.2s ease; white-space: nowrap;
 }
 #petcat:hover .petcat-hint { opacity: 1; }
 

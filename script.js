@@ -8,8 +8,6 @@
 /* ─────────────────────────────────────────────
    1. THE CLOCK  (updates every second)
 ───────────────────────────────────────────── */
-const TW = "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/";
-
 function tickClock() {
   const now = new Date();
   const date = now.toLocaleDateString([], { month: "short", day: "numeric" });
@@ -19,17 +17,17 @@ function tickClock() {
 tickClock();
 setInterval(tickClock, 1000);
 
-// a greeting that changes with the time of day ☀️🌙
+// a greeting that changes with the time of day
 function updateGreeting() {
   const h = new Date().getHours();
   let text, icon;
-  if (h < 5)       { text = "still up? ♡";   icon = "1f319"; }  // moon
-  else if (h < 12) { text = "good morning";  icon = "2600";  }  // sun
-  else if (h < 17) { text = "good afternoon"; icon = "2600"; }  // sun
-  else if (h < 21) { text = "good evening";  icon = "1f319"; }  // moon
-  else             { text = "goodnight";     icon = "1f319"; }  // moon
+  if (h < 5)       { text = "still up? ♡";    icon = "#ic-moon"; }
+  else if (h < 12) { text = "good morning";   icon = "#ic-sun";  }
+  else if (h < 17) { text = "good afternoon"; icon = "#ic-sun";  }
+  else if (h < 21) { text = "good evening";   icon = "#ic-moon"; }
+  else             { text = "goodnight";      icon = "#ic-moon"; }
   document.querySelector("#greetText").textContent = text;
-  document.querySelector("#greetIcon").src = TW + icon + ".svg";
+  document.querySelector("#greetUse").setAttribute("href", icon);
 }
 updateGreeting();
 setInterval(updateGreeting, 60 * 1000);
@@ -49,7 +47,7 @@ function bringToFront(win) {
 
 
 /* ─────────────────────────────────────────────
-   3. CUTE SOUNDS  (synthesized — no audio files needed)
+   3. CUTE SOUNDS  (synthesized, no audio files needed)
    browsers only allow sound after a user interaction,
    so the AudioContext starts on the first click.
 ───────────────────────────────────────────── */
@@ -227,44 +225,78 @@ document.querySelectorAll(".dock-item").forEach((item) => {
    6c. PET CAT  (blinks, looks at your cursor, purrs when pet)
 ───────────────────────────────────────────── */
 const petcat = document.querySelector("#petcat");
-const petImg = petcat.querySelector(".petcat-img");
+const eyesOpen = petcat.querySelector(".eyes-open");
+const eyesHappy = petcat.querySelector(".eyes-happy");
 
-// blink every few seconds
+// blink every few seconds (but not mid-drag)
 setInterval(() => {
+  if (petcat.classList.contains("dragging")) return;
   petcat.classList.add("blink");
   setTimeout(() => petcat.classList.remove("blink"), 250);
 }, 3500);
 
-// gently look toward the cursor
-document.addEventListener("pointermove", (e) => {
+// drag to move the cat anywhere; a tap (barely moving) pets it
+let pcDown = false, pcMoved = 0, pcStartX = 0, pcStartY = 0, pcLeft = 0, pcTop = 0;
+
+petcat.addEventListener("pointerdown", (e) => {
+  pcDown = true; pcMoved = 0;
   const r = petcat.getBoundingClientRect();
-  const dx = e.clientX - (r.left + r.width / 2);
-  const tilt = Math.max(-12, Math.min(12, dx / 40));
-  petImg.style.rotate = tilt + "deg";
+  petcat.style.left = r.left + "px";   // pin so we can move it freely
+  petcat.style.top = r.top + "px";
+  petcat.style.right = "auto";
+  petcat.style.bottom = "auto";
+  pcStartX = e.clientX; pcStartY = e.clientY;
+  pcLeft = r.left; pcTop = r.top;
+  petcat.setPointerCapture(e.pointerId);
 });
 
-// pet it: bounce + purr + a burst of hearts
-petcat.addEventListener("click", (e) => {
+petcat.addEventListener("pointermove", (e) => {
+  if (!pcDown) return;
+  const dx = e.clientX - pcStartX, dy = e.clientY - pcStartY;
+  pcMoved += Math.abs(dx) + Math.abs(dy);
+  if (pcMoved > 6) petcat.classList.add("dragging");
+  const maxX = window.innerWidth - petcat.offsetWidth;
+  const maxY = window.innerHeight - petcat.offsetHeight;
+  petcat.style.left = Math.max(0, Math.min(maxX, pcLeft + dx)) + "px";
+  petcat.style.top = Math.max(40, Math.min(maxY, pcTop + dy)) + "px";
+});
+
+petcat.addEventListener("pointerup", (e) => {
+  if (!pcDown) return;
+  pcDown = false;
+  petcat.classList.remove("dragging");
+  if (pcMoved < 6) petCat(e.clientX, e.clientY);   // a tap means a pet
+});
+
+function petCat(x, y) {
   petcat.classList.remove("bounce");
-  void petcat.offsetWidth;            // restart the bounce animation
+  void petcat.offsetWidth;             // restart the bounce animation
   petcat.classList.add("bounce");
+  eyesOpen.style.display = "none";     // happy eyes for a moment
+  eyesHappy.style.display = "";
+  setTimeout(() => {
+    eyesOpen.style.display = "";
+    eyesHappy.style.display = "none";
+  }, 800);
   playPurr();
-  spawnHearts(e.clientX, e.clientY);
-});
+  spawnHearts(x, y);
+}
 
+// little floating hearts (drawn with our own heart icon)
 function spawnHearts(x, y) {
-  const hearts = ["1f497", "1f495", "1f49e"];   // growing / two / revolving hearts
+  const NS = "http://www.w3.org/2000/svg";
   for (let i = 0; i < 5; i++) {
-    const img = document.createElement("img");
-    img.className = "heart";
-    img.alt = "";
-    img.width = 22; img.height = 22;
-    img.src = TW + hearts[i % hearts.length] + ".svg";
-    img.style.left = (x - 11 + (Math.random() * 40 - 20)) + "px";
-    img.style.top = (y - 11) + "px";
-    img.style.animationDelay = (i * 0.06) + "s";
-    document.body.appendChild(img);
-    setTimeout(() => img.remove(), 1300);
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("class", "heart");
+    svg.setAttribute("viewBox", "0 0 32 32");
+    const use = document.createElementNS(NS, "use");
+    use.setAttribute("href", "#ic-heart");
+    svg.appendChild(use);
+    svg.style.left = (x - 11 + (Math.random() * 40 - 20)) + "px";
+    svg.style.top = (y - 11) + "px";
+    svg.style.animationDelay = (i * 0.06) + "s";
+    document.body.appendChild(svg);
+    setTimeout(() => svg.remove(), 1300);
   }
 }
 
@@ -280,9 +312,9 @@ const notes = [
     date: "entry i",
     body: `
       <h2>✶ a little book of me ✶</h2>
-      <p>this is where i scribble the things rattling around my head —
+      <p>this is where i scribble the things rattling around my head:
       books i'm reading, art i'm making, and memes i refuse to stop thinking about.</p>
-      <blockquote>"not all those who wander are lost" — but i definitely am ♡</blockquote>
+      <blockquote>"not all those who wander are lost", but i definitely am ♡</blockquote>
       <p>click around the tabs on the left to read more ‧₊˚🕯️</p>
     `,
   },
@@ -293,9 +325,9 @@ const notes = [
       <h2>📚 on my nightstand</h2>
       <p>i'm a forever-reader. right now i've got a teetering stack of:</p>
       <ul>
-        <li>✦ <strong>a cozy fantasy</strong> — for the soft magical feelings</li>
-        <li>✦ <strong>a mystery</strong> — i never guess the ending (i love that)</li>
-        <li>✦ <strong>The Secret History by Donna Tartt</strong> — the literary equivalent of a warm blanket</li>
+        <li>✦ <strong>a cozy fantasy</strong>, for the soft magical feelings</li>
+        <li>✦ <strong>a mystery</strong>, i never guess the ending (i love that)</li>
+        <li>✦ <strong>The Secret History by Donna Tartt</strong>, the literary equivalent of a warm blanket</li>
       </ul>
     `,
   },
