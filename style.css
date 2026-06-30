@@ -299,4 +299,87 @@ body::before {
   .grimoire-sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; }
   .jukebox-window { left: 4vw; width: 92vw; }
   .welcome-window { width: 92vw; }
+  .dock { bottom: 8px; gap: 8px; }
+  #petcat { right: 12px; bottom: 96px; }
+}
+
+/* ───────────── REAL IMAGE ASSETS (Twemoji) ───────────── */
+.tw { display: block; width: 100%; height: 100%; object-fit: contain; }
+.tw-inline { display: inline-block; width: 1.05em; height: 1.05em; vertical-align: -0.18em; }
+.icon-art img.tw { width: 38px; height: 38px; }
+
+/* welcome kitty (now a real image) */
+.kitty { position: relative; width: 92px; height: 92px; margin: 0 auto 6px; }
+.kitty-img {
+  width: 88px; height: 88px; display: block; margin: 2px auto 0;
+  filter: drop-shadow(0 7px 11px rgba(255, 111, 177, 0.42));
+  animation: kittyBob 4s ease-in-out infinite;
+}
+.kitty-bow { position: absolute; top: -2px; right: 8px; width: 30px; height: 30px; }
+@keyframes kittyBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+/* ───────────── DOCK / TASKBAR ───────────── */
+.dock {
+  position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%);
+  display: flex; gap: 10px; padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(12px);
+  border: 1.5px solid #ffffff; border-radius: 24px;
+  box-shadow: 0 12px 30px rgba(255, 111, 177, 0.3); z-index: 9998;
+}
+.dock-item {
+  position: relative; width: 46px; height: 46px; border-radius: 14px; padding: 7px;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><g fill="rgb(255,111,177)" stroke="white" stroke-width="1.2"><ellipse cx="13" cy="17" rx="6" ry="5"/><circle cx="6.5" cy="11" r="2.3"/><circle cx="11" cy="7.5" r="2.3"/><circle cx="15" cy="7.5" r="2.3"/><circle cx="19.5" cy="11" r="2.3"/></g></svg>') 13 12, pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.dock-item:hover { transform: translateY(-7px) scale(1.06); background: rgba(255, 255, 255, 0.6); }
+.dock-dot {
+  position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
+  width: 5px; height: 5px; border-radius: 50%; background: var(--accent-deep);
+  opacity: 0; transition: opacity 0.2s ease;
+}
+.dock-item.open .dock-dot { opacity: 1; }
+
+/* ───────────── PET CAT ───────────── */
+#petcat {
+  position: fixed; right: 26px; bottom: 92px; width: 84px; height: 100px; z-index: 9997;
+  text-align: center; user-select: none;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><g fill="rgb(255,111,177)" stroke="white" stroke-width="1.2"><ellipse cx="13" cy="17" rx="6" ry="5"/><circle cx="6.5" cy="11" r="2.3"/><circle cx="11" cy="7.5" r="2.3"/><circle cx="15" cy="7.5" r="2.3"/><circle cx="19.5" cy="11" r="2.3"/></g></svg>') 13 12, pointer;
+}
+.petcat-eyes { display: none; }
+.petcat-shadow {
+  position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+  width: 52px; height: 10px; background: rgba(214, 90, 158, 0.22);
+  border-radius: 50%; filter: blur(3px);
+}
+.petcat-img {
+  width: 72px; height: 72px; display: block; margin: 0 auto;
+  transform-origin: bottom center; transition: transform 0.15s ease;
+  filter: drop-shadow(0 5px 8px rgba(255, 111, 177, 0.45));
+}
+#petcat:hover .petcat-img { transform: scale(1.06) rotate(-3deg); }
+#petcat.bounce .petcat-img { animation: petBounce 0.5s ease; }
+#petcat.blink .petcat-img { animation: petBlink 0.25s ease; }
+@keyframes petBounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.18) rotate(6deg); }
+  60% { transform: scale(0.96) rotate(-5deg); }
+  100% { transform: scale(1); }
+}
+@keyframes petBlink { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.82); } }
+.petcat-hint {
+  margin: 3px 0 0; font-size: 11px; font-weight: 600; color: var(--accent-deep);
+  background: rgba(255, 255, 255, 0.7); border-radius: 999px; padding: 2px 9px;
+  opacity: 0; transition: opacity 0.2s ease;
+}
+#petcat:hover .petcat-hint { opacity: 1; }
+
+/* floating hearts when you pet the cat */
+.heart {
+  position: fixed; pointer-events: none; width: 22px; height: 22px; z-index: 99999;
+  animation: floatUp 1.1s ease-out forwards;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-72px) scale(1.15); opacity: 0; }
 }
