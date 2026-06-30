@@ -258,6 +258,7 @@ function spawnHearts(x, y) {
     const img = document.createElement("img");
     img.className = "heart";
     img.alt = "";
+    img.width = 22; img.height = 22;
     img.src = TW + hearts[i % hearts.length] + ".svg";
     img.style.left = (x - 11 + (Math.random() * 40 - 20)) + "px";
     img.style.top = (y - 11) + "px";
